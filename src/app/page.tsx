@@ -7,7 +7,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPython, faJava, faJs, faReact } from "@fortawesome/free-brands-svg-icons";
 import React from "react";
 import { useState } from "react";
-
+import { projetosDescricao } from "@/docs/projetosDescricao";
+import { link } from "fs/promises";
 
 interface HomeProps {
   deviceType: string;
@@ -34,7 +35,9 @@ export default function Home(this:any,deviceType: HomeProps,) {
   };
   
   const [showModal, setshowModal] = React.useState(false);
-  const abrirModal = () => {
+  const [selectProjeto, setSelectProjeto] = useState<any>(null);
+  const abrirModal = (projeto:any) => {
+    setSelectProjeto(projeto);
     setshowModal(true);
   };
   const fecharModal = () => {
@@ -110,50 +113,30 @@ export default function Home(this:any,deviceType: HomeProps,) {
           itemClass="carousel-item-padding-20-px"
           arrows={true}
         >
-        
-          <div className="card" onClick={abrirModal} style={{width: "15rem", margin: "0 auto",zIndex: 1}}>
-            <img src="/images/perguntamodelo.png" className="card-img-top" alt="..."/>
-            <div className="card-body">
-              <h3 className="card-title">Questionário</h3>
+          {projetosDescricao.map((projeto, key) => (
+            <div key={key}>
+              <div className="card" onClick={()=>abrirModal(projeto)} style={{width: "15rem", margin: "0 auto",zIndex: 1}}>
+                <img src={projeto.imageUrl} className="card-img-top" alt={projeto.title}/>
+                <div className="card-body">
+                  <h3 className="card-title">{projeto.title}</h3>
+                </div>
+              </div>
             </div>
-          </div>
-          <div className="card" style={{width: "15rem", margin: "0 auto",zIndex: 1}}>
-            <img src="/images/perguntamodelo.png" className="card-img-top" alt="..."/>
-            <div className="card-body">
-              <h3 className="card-title">Questionário2</h3>
-            </div>
-          </div>
-          <div className="card" style={{width: "15rem", margin: "0 auto",zIndex: 1}}>
-            <img src="/images/perguntamodelo.png" className="card-img-top" alt="..."/>
-            <div className="card-body">
-              <h3 className="card-title">Questionário3</h3>
-            </div>
-          </div>
-          <div className="card" style={{width: "15rem", margin: "0 auto",zIndex: 1}}>
-            <img src="/images/perguntamodelo.png" className="card-img-top" alt="..."/>
-            <div className="card-body">
-              <h3 className="card-title">Questionário4</h3>
-            </div>
-          </div>
-          <div className="card" style={{width: "15rem", margin: "0 auto",zIndex: 1}}>
-            <img src="/images/perguntamodelo.png" className="card-img-top" alt="..."/>
-            <div className="card-body">
-              <h3 className="card-title">Questionário5</h3>
-            </div>
-          </div>
-        </Carousel>  
+          ))}
+        </Carousel>
       </div>
-      {showModal && (
+      {showModal && selectProjeto && (
         <ModalComponent
-          title="Questionário"
-          description="Este é um exemplo de questionário."
-          imageUrl="/images/perguntamodelo.png"
-          link="https://example.com"
+          title={selectProjeto.title}
+          description={selectProjeto.description}
+          imageUrl={selectProjeto.imageUrl}
+          link={selectProjeto.link}
           onClose={fecharModal}
         />
-      )}      
-          
+      )}
+    
+
     </div>
-  );  
-  }
+  );
+}
 
