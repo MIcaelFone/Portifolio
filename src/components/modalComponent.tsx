@@ -28,7 +28,7 @@ export function ModalComponent({title,description,imageUrl,link,onClose}:ModalCo
             </Modal.Header>
             <Modal.Body>
                 <div className="d-flex flex-column">
-                    <img src={imageUrl} alt={description} className="img-fluid" />
+                    <img src={imageUrl} alt={description} className="img-fluid"  />
                     <p>{description}</p>
                 </div>
                 <a href={link} target="_blank" rel="noopener noreferrer">
